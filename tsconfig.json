@@ -1,5 +1,7 @@
 {
+  "include": ["src/**/*", "test/**/*", "jest.config.js"],
   "compilerOptions": {
+    "types": ["jest", "node"],
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "resolvePackageJsonExports": true,

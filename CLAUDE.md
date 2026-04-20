@@ -2,6 +2,13 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## 工作原则（第一性原理）
+
+- **需求不清时暂停**：不假设我清楚自己想要什么。动机或目标不清晰时，停下来讨论。
+- **质疑路径**：目标清晰但路径不是最短的，直接告诉我并建议更好的办法。
+- **追根因**：遇到问题追根因，不打补丁。每个决策都要能回答"为什么"。
+- **输出精简**：说重点，砍掉一切不改变决策的信息。
+
 ## Project Overview
 
 这是一个 NestJS 框架构建的 RESTful API 项目，使用 MongoDB 数据库。
@@ -32,30 +39,33 @@ npm run test:cov           # 生成测试覆盖率报告
 
 项目采用标准的 NestJS 模块化架构：
 
-```
+```md
 src/
-├── main.ts               # 应用入口，包含全局管道配置
-├── app.module.ts         # 根模块，配置数据库连接和全局模块
-├── app.controller.ts     # 根控制器
-├── app.service.ts        # 根服务
-└── user/                 # 用户模块（示例模块）
-    ├── user.module.ts    # 用户模块定义
-    ├── user.controller.ts # HTTP 路由处理
-    ├── user.service.ts   # 业务逻辑
-    └── dto/              # 数据传输对象
-        └── create-user.dto.ts
+├── main.ts # 应用入口，包含全局管道配置
+├── app.module.ts # 根模块，配置数据库连接和全局模块
+├── app.controller.ts # 根控制器
+├── app.service.ts # 根服务
+└── user/ # 用户模块（示例模块）
+├── user.module.ts # 用户模块定义
+├── user.controller.ts # HTTP 路由处理
+├── user.service.ts # 业务逻辑
+└── dto/ # 数据传输对象
+└── create-user.dto.ts
 ```
 
 ### 数据层
+
 - 使用 Mongoose 连接 MongoDB
 - 数据库连接通过 `MONGODB_URI` 环境变量配置，默认连接 `mongodb://localhost:27017/ssswj`
 
 ### 配置
+
 - 使用 `@nestjs/config` 进行配置管理
 - 环境变量通过 `dotenv` 加载
 - 全局验证管道：`ValidationPipe`（在 main.ts 中配置）
 
 ### API 路由
+
 - 根路径：`/`
 - 用户模块：`/user`
   - `GET /user` - 获取所有用户

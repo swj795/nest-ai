@@ -20,6 +20,7 @@ import { UserModule } from './user/user.module';
       useFactory: async (configService: ConfigService) => ({
         uri:
           configService.get<string>('MONGODB_URI') ||
+          configService.get<string>('MONGODB_URL') ||
           'mongodb://localhost:27017/ssswj',
       }),
       inject: [ConfigService],

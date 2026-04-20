@@ -44,6 +44,18 @@ $ pnpm run start:dev
 $ pnpm run start:prod
 ```
 
+## Environment variables
+
+Copy `.env.example` to `.env` and fill in the values you need.
+
+```bash
+QIANFAN_CODING_PLAN_API_KEY=your-api-key
+QIANFAN_CODING_PLAN_MODEL=qianfan-coding-plan
+QIANFAN_CODING_PLAN_BASE_URL=https://qianfan.baidubce.com
+```
+
+The project now loads Qianfan Coding Plan settings through Nest `ConfigModule`.
+
 ## Run tests
 
 ```bash

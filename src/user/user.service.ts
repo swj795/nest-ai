@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 export interface User {
   id: number;
@@ -18,8 +18,12 @@ export class UserService {
   findAll(): User[] {
     return this.users;
   }
-  findById(id: number): User | undefined {
-    return this.users.find((user) => user.id === id);
+  findById(id: number): User {
+    const user = this.users.find((user) => user.id === id);
+    if (!user) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
+    return user;
   }
   create(user: Omit<User, 'id'>): User {
     const newUser: User = {
@@ -28,5 +32,19 @@ export class UserService {
     };
     this.users.push(newUser);
     return newUser;
+  }
+  update(id: number, userData: Partial<Omit<User, 'id'>>): User {
+    const user = this.findById(id);
+    Object.assign(user, userData);
+    return user;
+  }
+  remove(id: number): boolean {
+    const index = this.users.findIndex((u) => u.id === id);
+    if (index === -1) {
+      // throw new NotFoundException(`User with id ${id} not found`);
+      return false;
+    }
+    this.users.splice(index, 1);
+    return true;
   }
 }

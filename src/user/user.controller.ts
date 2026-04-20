@@ -6,6 +6,10 @@ import {
   Param,
   ParseIntPipe,
   NotFoundException,
+  Put,
+  Delete,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import type { User } from './user.service';
@@ -23,15 +27,29 @@ export class UserController {
 
   @Get(':id')
   findById(@Param('id', ParseIntPipe) id: number): User {
-    const user = this.userService.findById(id);
-    if (!user) {
-      throw new NotFoundException(`User with id ${id} not found`);
-    }
-    return user;
+    return this.userService.findById(id);
   }
 
   @Post()
   create(@Body() createUserDto: CreateUserDto): User {
     return this.userService.create(createUserDto);
+  }
+
+  @Put(':id')
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateUserDto: { name: string; eamil: string },
+  ): User {
+    const user = this.userService.update(id, updateUserDto);
+    return user;
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  remove(@Param('id', ParseIntPipe) id: number): void {
+    const success = this.userService.remove(id);
+    if (!success) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
   }
 }
