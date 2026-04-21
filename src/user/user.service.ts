@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 
 export interface User {
   id: number;
@@ -8,6 +8,9 @@ export interface User {
 
 @Injectable()
 export class UserService {
+  constructor(@Inject('DATABASE_CONNECTION') private readonly database: any) {
+    console.log(this.database, '<==== this.database');
+  }
   private users: User[] = [
     {
       id: 1,
