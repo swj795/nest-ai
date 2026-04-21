@@ -108,6 +108,12 @@ describe('UserService', () => {
       expect(service.findAll().length).toBe(initialCount - 1);
     });
 
+    it('should make the removed user unavailable by id', () => {
+      service.remove(1);
+
+      expect(() => service.findById(1)).toThrow(NotFoundException);
+    });
+
     it('should return false when removing non-existent user', () => {
       const result = service.remove(999);
       expect(result).toBe(false);

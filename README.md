@@ -69,6 +69,30 @@ $ pnpm run test:e2e
 $ pnpm run test:cov
 ```
 
+### Focused unit test command
+
+```bash
+# run one spec file only
+$ pnpm run test:file -- src/user/user.service.spec.ts
+
+# inspect or run the global unit-test target resolver
+$ node ~/.claude/scripts/unit-test-target.mjs inspect src/user/user.service.ts
+$ node ~/.claude/scripts/unit-test-target.mjs run src/user/user.service.ts
+```
+
+## Global `/gut` command
+
+This repository provides the project-side support for a global slash command.
+
+- Global command surface: `/gut src/user/` or `/gut src/user/user.service.ts`
+- Global command location on this machine: `~/.claude/commands/gut.md`
+- Global resolver script on this machine: `~/.claude/scripts/unit-test-target.mjs`
+- Scope: only `src/**/*.ts` source files
+- Rejected targets: `*.spec.ts`, `*.module.ts`, `src/main.ts`, `*.e2e-spec.ts`
+- Behavior: create missing `*.spec.ts` files or augment existing specs in place, then run only that spec
+
+The global command relies on `~/.claude/scripts/unit-test-target.mjs` to validate the target path, detect the current repository's test layout, infer the matching spec path, and run focused Jest execution.
+
 ## Deployment
 
 When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
