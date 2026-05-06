@@ -161,10 +161,6 @@ function main() {
     process.exit(0);
   }
 
-  if (!process.env.CODEX_THREAD_ID) {
-    process.exit(0);
-  }
-
   if (source === 'merge' || source === 'squash') {
     process.exit(0);
   }
@@ -187,7 +183,7 @@ function main() {
   let model = config.model;
   let modelProvider = config.modelProvider;
 
-  if (stateDb) {
+  if (stateDb && process.env.CODEX_THREAD_ID) {
     const thread = runSqliteQuery(stateDb, process.env.CODEX_THREAD_ID);
     modelProvider = thread.modelProvider || modelProvider;
     model = thread.model || model;
