@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
-import { UserService, User } from './user.service';
+import { UserService } from './user.service';
 
 describe('UserService', () => {
   let service: UserService;

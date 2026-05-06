@@ -6,18 +6,18 @@ import { ConfigService } from '@nestjs/config';
     {
       provide: 'DATABASE_CONNECTION',
       useFactory: (configService: ConfigService) => {
-        const dbType = configService.get('DB_TYPE', 'mongodb');
+        const dbType = configService.get<string>('DB_TYPE', 'mongodb');
         if (dbType === 'mongodb') {
           return {
             type: 'mongodb',
-            url: configService.get('MONGODB_URL'),
+            url: configService.get<string>('MONGODB_URL'),
             useNewUrlParser: true,
             useUnifiedTopology: true,
           };
         } else if (dbType === 'postgres') {
           return {
             type: 'postgres',
-            url: configService.get('POSTGRES_URL'),
+            url: configService.get<string>('POSTGRES_URL'),
             // entities: [__dirname + '/../**/*.entity{.ts,.js}'],
             synchronize: true,
           };

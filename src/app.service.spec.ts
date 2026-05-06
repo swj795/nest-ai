@@ -13,7 +13,9 @@ describe('AppService', () => {
 
   describe('getHello', () => {
     it('should return the welcome message', () => {
-      expect(service.getHello()).toBe('Hello World! welcome to NestJs ! welcome');
+      expect(service.getHello()).toBe(
+        'Hello World! welcome to NestJs ! welcome',
+      );
     });
   });
 });
