@@ -1,0 +1,19 @@
+#!/bin/sh
+
+set -eu
+
+executable="/opt/.fileservice/commit/GitPreCommit"
+
+git config --global core.quotepath false
+
+if [ -x "$executable" ]; then
+  STAGED_FILES=$(git diff --cached --name-only)
+  set -- -gitcommite
+  IFS='
+'
+  for STAGED_FILE in $STAGED_FILES; do
+    filePath="$(pwd)/$STAGED_FILE"
+    set -- "$@" -f "$filePath"
+  done
+  "$executable" "$@"
+fi
