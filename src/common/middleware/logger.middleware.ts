@@ -18,3 +18,5 @@ export class LoggerMiddleware implements NestMiddleware {
     next();
   }
 }
+
+// 测试git信息
