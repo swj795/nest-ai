@@ -10,13 +10,19 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  UseGuards,
+  // UseFilters,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import type { User } from './user.service';
 
 import { CreateUserDto } from './dto/create-user.dto';
 
+import { RoleGuard, Roles } from 'src/auth/roles.guard';
+
 @Controller('user')
+@UseGuards(RoleGuard)
+// @UseFilters()
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -27,6 +33,9 @@ export class UserController {
 
   @Get(':id')
   findById(@Param('id', ParseIntPipe) id: number): User {
+    if (id > 100) {
+      throw new NotFoundException('User not found');
+    }
     return this.userService.findById(id);
   }
 
