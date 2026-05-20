@@ -13,6 +13,7 @@ import { LoggerInterceptor } from './common/interceptors/logger.interceptor';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './auth/jwt.strategy';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
+import { CommonModule } from './common/common.module';
 
 /**
  * 模块装饰器，用于定义模块
@@ -36,6 +37,7 @@ import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
     UserModule,
     InterviewModule,
     DatabaseModule,
+    CommonModule,
     // JwtModule.register({
     //   secret: '123456789',
     //   signOptions: { expiresIn: '1d' },
