@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { NotFoundException } from '@nestjs/common';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 
@@ -11,7 +10,7 @@ describe('UserController', () => {
     findById: jest.fn(),
     create: jest.fn(),
     update: jest.fn(),
-    remove: jest.fn(),
+    delete: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -37,8 +36,8 @@ describe('UserController', () => {
   describe('findAll', () => {
     it('should return an array of users', () => {
       const users = [
-        { id: 1, name: 'John Doe', email: 'john@example.com' },
-        { id: 2, name: 'Jane Doe', email: 'jane@example.com' },
+        { _id: '665f0a1234567890abcdef12', username: 'john' },
+        { _id: '665f0a1234567890abcdef13', username: 'jane' },
       ];
       mockUserService.findAll.mockReturnValue(users);
 
@@ -51,21 +50,14 @@ describe('UserController', () => {
 
   describe('findById', () => {
     it('should return a user by id', () => {
-      const user = { id: 1, name: 'John Doe', email: 'john@example.com' };
+      const id = '665f0a1234567890abcdef12';
+      const user = { _id: id, username: 'john' };
       mockUserService.findById.mockReturnValue(user);
 
-      const result = controller.findById(1);
+      const result = controller.findById(id);
 
       expect(result).toEqual(user);
-      expect(mockUserService.findById).toHaveBeenCalledWith(1);
-    });
-
-    it('should throw NotFoundException when user not found', () => {
-      mockUserService.findById.mockImplementation(() => {
-        throw new NotFoundException('User with id 999 not found');
-      });
-
-      expect(() => controller.findById(999)).toThrow(NotFoundException);
+      expect(mockUserService.findById).toHaveBeenCalledWith(id);
     });
   });
 
@@ -84,33 +76,32 @@ describe('UserController', () => {
 
   describe('update', () => {
     it('should update a user', () => {
+      const id = '665f0a1234567890abcdef12';
       const updateDto = { name: 'Updated Name', eamil: 'updated@example.com' };
       const updatedUser = {
-        id: 1,
+        _id: id,
         name: 'Updated Name',
         email: 'updated@example.com',
       };
       mockUserService.update.mockReturnValue(updatedUser);
 
-      const result = controller.update(1, updateDto);
+      const result = controller.update(id, updateDto);
 
       expect(result).toEqual(updatedUser);
-      expect(mockUserService.update).toHaveBeenCalledWith(1, updateDto);
+      expect(mockUserService.update).toHaveBeenCalledWith(id, updateDto);
     });
   });
 
   describe('remove', () => {
     it('should remove a user successfully', () => {
-      mockUserService.remove.mockReturnValue(true);
+      const id = '665f0a1234567890abcdef12';
+      const deletedUser = { _id: id, username: 'john' };
+      mockUserService.delete.mockReturnValue(deletedUser);
 
-      expect(() => controller.remove(1)).not.toThrow();
-      expect(mockUserService.remove).toHaveBeenCalledWith(1);
-    });
+      const result = controller.remove(id);
 
-    it('should throw NotFoundException when user not found', () => {
-      mockUserService.remove.mockReturnValue(false);
-
-      expect(() => controller.remove(999)).toThrow(NotFoundException);
+      expect(result).toEqual(deletedUser);
+      expect(mockUserService.delete).toHaveBeenCalledWith(id);
     });
   });
 });

@@ -6,7 +6,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   @Transform(({ value }) => value.trim())
   @Expose()
-  name: string;
+  username: string;
 
   @IsEmail()
   @IsNotEmpty()

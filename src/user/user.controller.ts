@@ -4,8 +4,6 @@ import {
   Post,
   Body,
   Param,
-  ParseIntPipe,
-  NotFoundException,
   Put,
   Delete,
   HttpCode,
@@ -14,11 +12,12 @@ import {
   // UseFilters,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import type { User } from './user.service';
+// import type { User } from './user.service';
+import { User } from './schemas/user.schema';
 
 import { CreateUserDto } from './dto/create-user.dto';
 
-import { RoleGuard, Roles } from 'src/auth/roles.guard';
+import { RoleGuard } from '../auth/roles.guard';
 
 @Controller('user')
 @UseGuards(RoleGuard)
@@ -27,38 +26,39 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  findAll(): User[] {
+  findAll(): Promise<User[]> {
     return this.userService.findAll();
   }
 
   @Get(':id')
-  findById(@Param('id', ParseIntPipe) id: number): User {
-    if (id > 100) {
-      throw new NotFoundException('User not found');
-    }
+  findById(@Param('id') id: string): Promise<User> {
+    // if (id > 100) {
+    //   throw new NotFoundException('User not found');
+    // }
     return this.userService.findById(id);
   }
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto): User {
+  create(@Body() createUserDto: any): Promise<User> {
     return this.userService.create(createUserDto);
   }
 
   @Put(':id')
   update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: string,
     @Body() updateUserDto: { name: string; eamil: string },
-  ): User {
+  ): Promise<User | null> {
     const user = this.userService.update(id, updateUserDto);
     return user;
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id', ParseIntPipe) id: number): void {
-    const success = this.userService.remove(id);
-    if (!success) {
-      throw new NotFoundException(`User with id ${id} not found`);
-    }
+  remove(@Param('id') id: string): Promise<User | null> {
+    // const success =
+    return this.userService.delete(id);
+    // if (!success) {
+    //   throw new NotFoundException(`User with id ${id} not found`);
+    // }
   }
 }
