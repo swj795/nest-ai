@@ -1,0 +1,30 @@
+{
+  "models": {
+    "gpt-5.5": {
+      "name": "Codex GPT-5.5",
+      "email": "noreply@openai.com"
+    },
+    "gpt-5.4": {
+      "name": "Codex GPT-5.4",
+      "email": "noreply@openai.com"
+    },
+    "gpt-5.3-codex": {
+      "name": "Codex GPT-5.3",
+      "email": "noreply@openai.com"
+    },
+    "qianfan-code-latest": {
+      "name": "Codex via YLSCode",
+      "email": "noreply@openai.com"
+    }
+  },
+  "providers": {
+    "ylscode": {
+      "name": "Codex via YLSCode",
+      "email": "noreply@openai.com"
+    }
+  },
+  "fallback": {
+    "name": "Codex",
+    "email": "noreply@openai.com"
+  }
+}

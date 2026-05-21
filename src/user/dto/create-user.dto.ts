@@ -1,17 +1,17 @@
-import {
-  IsString,
-  IsEmail,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-} from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { Transform, Expose, Exclude } from 'class-transformer';
 
 export class CreateUserDto {
-  @IsString()
+  @IsString({ message: 'name must be a string' })
   @IsNotEmpty()
-  name: string;
+  @Transform(({ value }) => value.trim())
+  @Expose()
+  username: string;
 
   @IsEmail()
   @IsNotEmpty()
   email: string;
+
+  @Exclude()
+  password: string;
 }

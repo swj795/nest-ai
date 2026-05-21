@@ -1,0 +1,6 @@
+#!/bin/sh
+
+set -eu
+
+hook_dir="$(cd "$(dirname "$0")" && pwd)"
+node "$hook_dir/../scripts/codex-commit-coauthor.mjs" "$@"
